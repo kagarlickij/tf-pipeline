@@ -1,3 +1,4 @@
-resource "aws_s3_bucket" "aws_s3_bucket" {
-  bucket = var.s3_name
+module "s3_bucket" {
+  source  = "./modules/s3_bucket"
+  s3_name = var.s3_name
 }
