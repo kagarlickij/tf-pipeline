@@ -14,6 +14,7 @@
 // }
 
 pipeline {
+    agent { node { label 'Built-In Node' } }
     stages {
         stage('ls') {
             steps {
