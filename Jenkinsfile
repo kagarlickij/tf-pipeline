@@ -16,10 +16,12 @@
 pipeline {
     agent { node { label 'master' } }
     stages {
-        stage('ls') {
+        stage('plan') {
             steps {
                 sh '''
-                    ls -lAp .
+                    cd terraform
+                    terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
+                    terraform plan -var-file="./envs/dev/dev.tfvars" -no-color
                 '''
             }
         }
