@@ -47,3 +47,5 @@ vendor
 .ruby-version
 .terraform.lock.hcl
 terragrunt
+
+MAN.md
