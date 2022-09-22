@@ -46,6 +46,5 @@ vendor
 .bundle
 .ruby-version
 .terraform.lock.hcl
-terragrunt
 
 MAN.md
