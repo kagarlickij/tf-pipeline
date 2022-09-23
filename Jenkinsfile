@@ -10,24 +10,43 @@ pipeline {
         //         '''
         //     }
         // }
-        stage('tg plan') {
-            steps {
+        if (env.BRANCH_NAME == 'main') {
+            stage('main') {
                 script {
-                    if (env.BRANCH_NAME == 'main') {
-                        echo 'main'
-                    } else if (env.BRANCH_NAME.startsWith('PR')) {
-                        echo 'pr'
-                    } else {
-                        echo 'other'
-                    }
+                    echo 'main'
                 }
-
-                // sh '''
-                //     cd terragrunt/envs/prod
-                //     terragrunt init -reconfigure -backend-config ./envs/prod/prod.application.hcl
-                //     terragrunt plan -no-color
-                // '''
+            }
+        } else if (env.BRANCH_NAME.startsWith('PR')) {
+            stage('PR') {
+                script {
+                    echo 'PR'
+                }
+            }
+        } else {
+            stage('other') {
+                script {
+                    echo 'other'
+                }
             }
         }
+        // stage('tg plan') {
+        //     steps {
+        //         script {
+        //             if (env.BRANCH_NAME == 'main') {
+        //                 echo 'main'
+        //             } else if (env.BRANCH_NAME.startsWith('PR')) {
+        //                 echo 'pr'
+        //             } else {
+        //                 echo 'other'
+        //             }
+        //         }
+
+        //         // sh '''
+        //         //     cd terragrunt/envs/prod
+        //         //     terragrunt init -reconfigure -backend-config ./envs/prod/prod.application.hcl
+        //         //     terragrunt plan -no-color
+        //         // '''
+        //     }
+        // }
     }
 }
