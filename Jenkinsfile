@@ -31,7 +31,7 @@ pipeline {
         stage('PR') {
             when {
                 expression {
-                    branch 'PR*'
+                    return env.BRANCH_NAME == 'PR*';
                 }
             }
             steps {
