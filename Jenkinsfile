@@ -12,11 +12,21 @@ pipeline {
         // }
         stage('tg plan') {
             steps {
-                sh '''
-                    cd terragrunt/envs/prod
-                    terragrunt init -reconfigure -backend-config ./envs/prod/prod.application.hcl
-                    terragrunt plan -no-color
-                '''
+                script {
+                    if (env.BRANCH_NAME == 'main') {
+                        echo 'main'
+                    } else if (env.BRANCH_NAME.startsWith('PR')) {
+                        echo 'pr'
+                    } else {
+                        echo 'other'
+                    }
+                }
+
+                // sh '''
+                //     cd terragrunt/envs/prod
+                //     terragrunt init -reconfigure -backend-config ./envs/prod/prod.application.hcl
+                //     terragrunt plan -no-color
+                // '''
             }
         }
     }
