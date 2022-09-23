@@ -23,7 +23,7 @@ pipeline {
                 sh '''
                     cd terraform
                     terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
-                    terraform plan -var-file="./envs/dev/dev.tfvars" -no-color -auto-approve
+                    terraform plan -var-file="./envs/dev/dev.tfvars" -no-color
                 '''
             }
         }
@@ -36,7 +36,7 @@ pipeline {
                 sh '''
                     cd terraform
                     terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
-                    terraform apply -var-file="./envs/dev/dev.tfvars" -no-color
+                    terraform apply -var-file="./envs/dev/dev.tfvars" -no-color -auto-approve
                 '''
             }
         }
