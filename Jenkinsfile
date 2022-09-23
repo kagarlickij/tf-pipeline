@@ -20,19 +20,15 @@ pipeline {
         }
         stage('other') {
             when {
-                expression {
-                    return env.BRANCH_NAME != 'main';
-                }
+                branch 'feature/*'
             }
             steps {
-                echo 'other'
+                echo 'feature'
             }
         }
         stage('PR') {
             when {
-                expression {
-                    return env.BRANCH_NAME == 'PR*';
-                }
+                branch 'PR-*'
             }
             steps {
                 echo 'PR'
