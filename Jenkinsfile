@@ -31,7 +31,7 @@ pipeline {
         stage('PR') {
             when {
                 expression {
-                    return env.BRANCH_NAME.startsWith == 'PR';
+                    branch 'PR*'
                 }
             }
             steps {
