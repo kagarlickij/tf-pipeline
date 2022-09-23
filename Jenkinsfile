@@ -10,23 +10,32 @@ pipeline {
         //         '''
         //     }
         // }
-        if (env.BRANCH_NAME == 'main') {
-            stage('main') {
-                script {
-                    echo 'main'
+        stage('main') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'main'
+            }
+        }
+        stage('other') {
+            when {
+                expression {
+                    return env.BRANCH_NAME != 'main';
                 }
             }
-        } else if (env.BRANCH_NAME.startsWith('PR')) {
-            stage('PR') {
-                script {
-                    echo 'PR'
+            steps {
+                echo 'other'
+            }
+        }
+        stage('PR') {
+            when {
+                expression {
+                    return env.BRANCH_NAME.startsWith == 'PR';
                 }
             }
-        } else {
-            stage('other') {
-                script {
-                    echo 'other'
-                }
+            steps {
+                echo 'PR'
             }
         }
         // stage('tg plan') {
