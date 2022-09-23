@@ -1,28 +1,6 @@
 pipeline {
     agent { node { label 'master' } }
     stages {
-        // stage('tf plan') {
-        //     steps {
-        //         sh '''
-        //             cd terraform
-        //             terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
-        //             terraform plan -var-file="./envs/dev/dev.tfvars" -no-color
-        //         '''
-        //     }
-        // }
-        stage('main') {
-            when {
-                branch 'main'
-            }
-            steps {
-                echo 'main'
-                sh '''
-                    cd terraform
-                    terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
-                    terraform apply -var-file="./envs/dev/dev.tfvars" -no-color
-                '''
-            }
-        }
         stage('feature') {
             when {
                 branch 'feature/*'
@@ -45,7 +23,20 @@ pipeline {
                 sh '''
                     cd terraform
                     terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
-                    terraform plan -var-file="./envs/dev/dev.tfvars" -no-color
+                    terraform plan -var-file="./envs/dev/dev.tfvars" -no-color -auto-approve
+                '''
+            }
+        }
+        stage('main') {
+            when {
+                branch 'main'
+            }
+            steps {
+                echo 'main'
+                sh '''
+                    cd terraform
+                    terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
+                    terraform apply -var-file="./envs/dev/dev.tfvars" -no-color
                 '''
             }
         }
