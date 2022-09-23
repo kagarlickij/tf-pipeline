@@ -16,14 +16,24 @@ pipeline {
             }
             steps {
                 echo 'main'
+                sh '''
+                    cd terraform
+                    terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
+                    terraform apply -var-file="./envs/dev/dev.tfvars" -no-color
+                '''
             }
         }
-        stage('other') {
+        stage('feature') {
             when {
                 branch 'feature/*'
             }
             steps {
                 echo 'feature'
+                sh '''
+                    cd terraform
+                    terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
+                    terraform validate -var-file="./envs/dev/dev.tfvars" -no-color
+                '''
             }
         }
         stage('PR') {
@@ -32,26 +42,12 @@ pipeline {
             }
             steps {
                 echo 'PR'
+                sh '''
+                    cd terraform
+                    terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
+                    terraform plan -var-file="./envs/dev/dev.tfvars" -no-color
+                '''
             }
         }
-        // stage('tg plan') {
-        //     steps {
-        //         script {
-        //             if (env.BRANCH_NAME == 'main') {
-        //                 echo 'main'
-        //             } else if (env.BRANCH_NAME.startsWith('PR')) {
-        //                 echo 'pr'
-        //             } else {
-        //                 echo 'other'
-        //             }
-        //         }
-
-        //         // sh '''
-        //         //     cd terragrunt/envs/prod
-        //         //     terragrunt init -reconfigure -backend-config ./envs/prod/prod.application.hcl
-        //         //     terragrunt plan -no-color
-        //         // '''
-        //     }
-        // }
     }
 }
