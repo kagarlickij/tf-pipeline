@@ -1,5 +1,5 @@
 pipeline {
-    agent { node { label 'master' } }
+    agent { node { label 'Built-In Node' } }
     stages {
         stage('feature') {
             when {
