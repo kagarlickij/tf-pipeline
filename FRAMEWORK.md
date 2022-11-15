@@ -76,4 +76,3 @@ terraform plan -var-file="./envs/dev/dev.tfvars"
 │   ├── prod  
 │        ├── terragrunt.hcl (all in one: calls modules, declares env-related variables, general AWS settings, output)  
 │        ├── prod.application.hcl (env-related terraform state params: bucket, table, etc.)  
-
