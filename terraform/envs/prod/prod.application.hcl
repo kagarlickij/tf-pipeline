@@ -1,4 +1,4 @@
-region = "us-east-1"
+region = "us-east-2"
 bucket = "prdkagtfstate"
 dynamodb_table = "prdkagtfstate"
 encrypt = "true"
