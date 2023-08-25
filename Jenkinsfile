@@ -29,7 +29,7 @@ pipeline {
         }
         stage('main') {
             when {
-                branch 'main'
+                branch 'refs/remotes/origin/main'
             }
             steps {
                 echo 'main'
