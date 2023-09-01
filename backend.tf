@@ -2,7 +2,8 @@ terraform {
   cloud {
     organization = "kag-demo"
     workspaces {
-      name = "tf-pipeline"
+      name = "dev"
+      name = "prod"
     }
   }
 }
