@@ -11,8 +11,8 @@ provider "aws" {
   region     = "us-east-2"
 }
 
-terraform {
+/* terraform {
   backend "s3" {
     key    = "tf-pipeline/terraform.tfstate"
-  }
+  } */
 }
