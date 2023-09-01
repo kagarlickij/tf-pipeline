@@ -1,9 +1,9 @@
 terraform {
   cloud {
     organization = "kag-demo"
-    workspaces {
+    /* workspaces {
       name = "dev"
       name = "prod"
-    }
+    } */
   }
 }
