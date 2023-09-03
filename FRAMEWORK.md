@@ -10,7 +10,7 @@
 # Terraform Git repos structure
 ├── main (covers all infra and can host some or all modules)  
 │   ├── module1 (e.g. S3 bucket)  
-│   ├── moduleN (e.g. IAM role)  
+│   ├── moduleN (e.g. IAM policy)  
 
 # Git flow
 `feature/*` - new functionality, used for PR validation (plan)  
