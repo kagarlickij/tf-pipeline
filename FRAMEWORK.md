@@ -1,27 +1,21 @@
-# Maintenance
-Check if environment is fully covered by IaC with scheduled job using [driftctl](https://driftctl.com)
+# Terraform cloud benefits over Jenkins pipeline
+1. Managed service (jenkins is single server)  
+1. Not a piece of infra (solves chicken-egg problem)  
+1. Supports granular permissions (current Jenkins setup doesn't)  
+1. No pipeline development and maintenance required (works out of the box)  
+1. Solid integration with GitHub (e.g. plans are auto queued)  
+1. Provided ability to use certain Terraform version (without creating multiple AMIs)  
+1. Great visualization of all actions (plans, applies, etc.)  
 
 # Terraform Git repos structure
-├── main (covers all infra)  
+├── main (covers all infra and can host some or all modules)  
 │   ├── module1 (e.g. S3 bucket)  
 │   ├── moduleN (e.g. IAM role)  
 
 # Git flow
-`feature/*` - new functionality
-`bugfix/*` - fixes for existing functionality
-`develop` - integrate multiple feature/bugfixes
-`release/*` - set of feature/bugfixes to be deployed
-`main` - keep history of successful deployments
-
-# Testing stages
-1. `feature/*` - unit tests with `terraform validate` on module level
-1. `bugfix/*` - unit tests with `terraform validate` on module level
-1. `develop` - integration/contracts tests with `terraform validate` on main (infra) level
-1. `release/*` -
-    1. security/compliance test with [Snyk](https://snyk.io/product/infrastructure-as-code-security/) or [terraform-compliance](https://github.com/terraform-compliance/cli)
-    1. functional tests with `terraform apply` against test env (wrapped in [Terratest](https://terratest.gruntwork.io))
-    1. end-to-end test with `terraform apply` against test env (wrapped in [Terratest](https://terratest.gruntwork.io))
-1. `main` - no testing required
+`feature/*` - new functionality, used for PR validation (plan)  
+`bugfix/*` - fixes for existing functionality, used for PR validation (plan)  
+`master` - integrate multiple feature/bugfixes, used for apply (multiple environments)  
 
 # Multiple environments
 All environments should use the same codebase (modules) but with different variables to address differences in:
@@ -29,15 +23,7 @@ All environments should use the same codebase (modules) but with different varia
 1. Capacity
 1. Access policies
 
-# Applying across multiple environments
-`release/*` build should produce immutable artifact (git tag?) that is used by release pipeline to deploy any env  
-However the recommendation is to always deploy new version to non-prod (UAT?) before deploying to PROD
-
-## Terraform state
-Each environment should have dedicated Terraform state  
-Terraform states should be provisioned by dedicated module with local state (can be placed on Jenkins master)
-
-## Terraform way of structuring
+# Terraform way of structuring
 ├── main.tf (calling modules)  
 ├── variables.tf (declaring variables)  
 ├── provider.tf (declaring general AWS settings)  
@@ -62,7 +48,7 @@ terraform init -reconfigure -backend-config ./envs/dev/dev.application.hcl
 terraform plan -var-file="./envs/dev/dev.tfvars"
 ```
 
-## Terragrunt way of structuring
+# Terragrunt way of structuring
 ├── envs  
 │   ├── dev  
 │        ├── terragrunt.hcl (all in one: calls modules, declares env-related variables, general AWS settings, output)  
