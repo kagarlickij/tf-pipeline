@@ -5,5 +5,6 @@ module "s3_bucket" {
 
 module "iam_policy" {
   source  = "./modules/iam_policy"
+  source = "github.com/kagarlickij/tf-pipeline-iam_policy"
   s3_name = var.s3_name
 }
