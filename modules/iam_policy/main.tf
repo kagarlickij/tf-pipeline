@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "aws_iam_policy_s3" {
-  name = "aws_iam_policy_s3"
+  name = "aws_iam_policy_s3_${var.s3_name}"
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
